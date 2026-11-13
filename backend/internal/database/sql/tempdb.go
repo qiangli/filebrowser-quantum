@@ -22,14 +22,6 @@ const (
 	defaultCacheSizePages = -4096 // ~16MB
 )
 
-func init() {
-	if SqliteDriver == "sqlite3" {
-		logger.Debugf("CGO SQLite driver initialized")
-	} else {
-		logger.Debugf("Default SQLite driver initialized")
-	}
-}
-
 // TempDB manages a temporary SQLite database for operations that need
 // to stream large datasets without loading everything into memory.
 // This can be used by any part of the codebase that needs temporary SQLite storage.
