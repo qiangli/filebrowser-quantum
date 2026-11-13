@@ -115,7 +115,6 @@ import Unarchive from "./Unarchive.vue";
 import OfficeDebug from "./OfficeDebug.vue";
 import ThreeJSControls from "./ThreeJSControls.vue";
 import ActivityEventDetails from "./ActivityEventDetails.vue";
-import AnalyticsDiagnostic from "./AnalyticsDiagnostic.vue";
 import ConfigViewer from "./ConfigViewer.vue";
 import UserDefaults from "./UserDefaults.vue";
 import { state, getters, mutations } from "@/store";
@@ -162,7 +161,6 @@ export default {
     OfficeDebug,
     ThreeJSControls,
     ActivityEventDetails,
-    AnalyticsDiagnostic,
     ConfigViewer,
     UserDefaults,
   },
@@ -283,7 +281,7 @@ export default {
       return false;
     },
     isEditorPrompt(prompt) {
-      return prompt?.name === "analytics-diagnostic" || prompt?.name === "config-viewer" || prompt?.name === "user-defaults";
+      return prompt?.name === "config-viewer" || prompt?.name === "user-defaults";
     },
     ensureEditorPromptSize(id) {
       if (getObjectProperty(this.sizes, id)) {
@@ -351,8 +349,6 @@ export default {
           return this.$t("prompts.fileInfo");
         case "help":
           return this.$t("general.help");
-        case "analytics-diagnostic":
-          return this.$t("settings.analyticsView");
         case "config-viewer":
           return this.$t("settings.configViewer");
         case "user-defaults":

@@ -291,3 +291,39 @@ func TestRejectsMissingScope(t *testing.T) {
 		t.Fatalf("New accepted a missing scope")
 	}
 }
+
+// No phone-home: the page's script policy names this origin only (no CDN, no
+// Google origins), the editor's Ace modes come from the embedded dist, and the
+// upstream deployment-analytics API no longer exists.
+func TestNoThirdPartyOrigins(t *testing.T) {
+	h, _ := newEmbed(t, false)
+	rr := do(t, h, http.MethodGet, "/", nil)
+	csp := rr.Header().Get("Content-Security-Policy")
+	if !strings.HasPrefix(csp, "script-src 'self' 'nonce-") {
+		t.Fatalf("CSP = %q", csp)
+	}
+	for _, host := range []string{"cdn.jsdelivr.net", "google.com", "gstatic.com", "http"} {
+		if strings.Contains(csp, host) {
+			t.Errorf("CSP allows a third-party origin (%s): %q", host, csp)
+		}
+	}
+	cfg := appConfig(t, rr.Body.String())
+	if cfg["updateAvailable"] != "" {
+		t.Errorf("updateAvailable = %v, want empty (no update check)", cfg["updateAvailable"])
+	}
+
+	rr = do(t, h, http.MethodGet, "/public/static/ace/mode-golang.js", nil)
+	if rr.Code != http.StatusOK || rr.Body.Len() == 0 {
+		t.Fatalf("ace mode from embedded dist = %d, %d bytes", rr.Code, rr.Body.Len())
+	}
+	if rr.Header().Get("Content-Encoding") != "gzip" {
+		t.Errorf("ace mode served without gzip encoding: %v", rr.Header())
+	}
+
+	for _, p := range []string{"/api/settings/analytics", "/api/settings/analytics/preview"} {
+		rr = do(t, h, http.MethodGet, p, nil)
+		if rr.Code == http.StatusOK {
+			t.Errorf("GET %s = 200; the analytics API should be gone", p)
+		}
+	}
+}

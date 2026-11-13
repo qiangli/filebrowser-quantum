@@ -9,7 +9,8 @@ import { state, getters, mutations } from "@/store";
 import { resourcesApi } from "@/api";
 import {pathsMatch, removeLastDir } from "@/utils/url.js";
 import { notify } from "@/notify";
-import ace, { version as ace_version } from "ace-builds";
+import ace from "ace-builds";
+import { globalVars } from "@/utils/constants";
 import modelist from "ace-builds/src-noconflict/ext-modelist";
 import "ace-builds/src-min-noconflict/theme-github";
 import "ace-builds/src-min-noconflict/theme-tomorrow_night_bright";
@@ -342,10 +343,10 @@ export default {
       }
 
       try {
-        ace.config.set(
-          "basePath",
-          `https://cdn.jsdelivr.net/npm/ace-builds@${ace_version}/src-min-noconflict/`
-        );
+        // Modes not imported above are loaded on demand from the embedded
+        // dist (vite.config.ts copies ace-builds' mode files to ace/), never
+        // from a public CDN: no phone-home, and the editor works offline.
+        ace.config.set("basePath", `${globalVars.baseURL}public/static/ace/`);
 
         this.editor = ace.edit(editorEl, {
           mode: this.editorLanguageMode,

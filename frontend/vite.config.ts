@@ -1,15 +1,40 @@
+import fs from "node:fs";
 import path from "node:path";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import vue from "@vitejs/plugin-vue";
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import checker from "vite-plugin-checker";
 import { compression } from "vite-plugin-compression2";
 
 const isDevBuild = process.env.DEV_BUILD === "true";
 const backendWebDist = path.resolve(__dirname, "../backend/internal/web/dist");
 
+// aceModules ships the Ace editor's language modes with the build so the
+// editor loads them from this origin (see Editor.vue's basePath) instead of a
+// public CDN. Only the mode files are copied; the themes and extensions the
+// editor uses are imported statically. Emitted before the compression plugin
+// runs so they are pre-gzipped like every other script.
+function aceModules(): Plugin {
+  const srcDir = path.resolve(__dirname, "node_modules/ace-builds/src-min-noconflict");
+  return {
+    name: "ace-modules",
+    apply: "build",
+    generateBundle() {
+      for (const file of fs.readdirSync(srcDir)) {
+        if (!/^mode-[\w-]+\.js$/.test(file)) continue;
+        this.emitFile({
+          type: "asset",
+          fileName: `ace/${file}`,
+          source: fs.readFileSync(path.join(srcDir, file)),
+        });
+      }
+    },
+  };
+}
+
 const plugins = [
   vue(),
+  aceModules(),
   VueI18nPlugin({
     runtimeOnly: false,
     include: [path.resolve(__dirname, "./src/i18n/**/*.json")],

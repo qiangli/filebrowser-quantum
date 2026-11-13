@@ -59,11 +59,13 @@ func (t *TemplateRenderer) Render(w http.ResponseWriter, name string, data inter
 
 // spaContentSecurityPolicy restricts only scripts. srcdoc preview frames inherit
 // this header, blocking inline scripts without limiting frames, images, or API calls.
+//
+// Scripts come from this origin only: the editor's Ace modules are served from
+// the embedded dist (see frontend/vite.config.ts) instead of a public CDN, and
+// nothing loads from a third-party host. An OnlyOffice server the owner
+// configured is the one opt-in exception.
 func spaContentSecurityPolicy(nonce string) string {
-	policy := fmt.Sprintf(
-		"script-src 'self' 'nonce-%s' https://cdn.jsdelivr.net https://www.google.com https://www.gstatic.com",
-		nonce,
-	)
+	policy := fmt.Sprintf("script-src 'self' 'nonce-%s'", nonce)
 	for _, origin := range onlyOfficeScriptSrcOrigins() {
 		policy += " " + origin
 	}
@@ -272,7 +274,7 @@ func handleWithStaticData(w http.ResponseWriter, r *http.Request, d *requestCont
 		"ldapAvailable":          settings.Config.Auth.Methods.LdapAuth.Enabled,
 		"mediaAvailable":         settings.MediaEnabled(),
 		"muPdfAvailable":         settings.Env.MuPdfAvailable,
-		"updateAvailable":        utils.GetUpdateAvailableUrl(),
+		"updateAvailable":        "", // this fork never checks for updates (no phone-home)
 		"disableNavButtons":      disableNavButtons,
 		"userSelectableThemes":   settings.Config.Frontend.Styling.CustomThemeOptions,
 		"enableHeicConversion":   settings.CanConvertImage("heic"),

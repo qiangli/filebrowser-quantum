@@ -61,7 +61,7 @@ type Environment struct {
 
 type Server struct {
 	MinSearchLength              int            `json:"minSearchLength" yaml:"minSearchLength"` // minimum length of search query to begin searching (default: 3)
-	DisableUpdateCheck           bool           `json:"disableUpdateCheck"`                     // disables backend update check service
+	DisableUpdateCheck           bool           `json:"disableUpdateCheck"`                     // accepted for config compatibility; this fork has no update check (removed, no phone-home)
 	NumImageProcessors           int            `json:"numImageProcessors"`                     // number of concurrent image processing jobs used to create previews, default is 4.
 	DisablePreviews              bool           `json:"disablePreviews"`                        // disable all previews thumbnails, simple icons will be used
 	DisableResize                bool           `json:"disablePreviewResize"`                   // disable resizing of previews for faster loading over slow connections

@@ -229,7 +229,8 @@ func closeIndex() {
 }
 
 // configure turns Options into the engine's settings: one source, noauth,
-// no WebDAV, no update check, no sharing, quiet logging.
+// no WebDAV, no sharing, quiet logging. (This fork has no update check and
+// no analytics reporter to disable: both were removed.)
 func configure(c *settings.Settings, scope, stateDir string, opts Options) {
 	c.Server.Sources = []*settings.Source{{
 		Path: scope,
@@ -243,7 +244,6 @@ func configure(c *settings.Settings, scope, stateDir string, opts Options) {
 	}}
 	c.Server.CacheDir = filepath.Join(stateDir, "cache")
 	c.Server.DatabaseV2.Path = filepath.Join(stateDir, "state.sqlite")
-	c.Server.DisableUpdateCheck = true
 	c.Server.NumImageProcessors = opts.ImageProcessors
 	c.Server.Logging = []settings.LogConfig{{
 		Output:    "stdout",

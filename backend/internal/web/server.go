@@ -22,6 +22,7 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/internal/events"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
+	"github.com/gtsteffaniak/filebrowser/backend/telemetry"
 	"github.com/gtsteffaniak/go-logger/logger"
 )
 
@@ -93,7 +94,14 @@ func NewHandler(deps Deps) (http.Handler, error) {
 	publicApi := http.NewServeMux()
 
 	configureHTTPRouter(router, api, publicRoutes, publicApi)
-	return muxWithMiddleware(router), nil
+
+	// Owner-only tracing: the W3C propagator is always installed so an inbound
+	// traceparent is honoured; spans are exported only when the owner set
+	// OTEL_EXPORTER_OTLP_ENDPOINT to a collector they run. Otherwise no-op.
+	if _, err := telemetry.Init(context.Background()); err != nil {
+		logger.Warningf("telemetry: init failed, continuing without tracing: %v", err)
+	}
+	return telemetry.Handler("", muxWithMiddleware(router)), nil
 }
 
 // StartHttp starts the HTTP server and blocks until ctx is cancelled.
@@ -195,6 +203,13 @@ func StartHttp(ctx context.Context, deps Deps, shutdownComplete chan struct{}) {
 	<-ctx.Done()
 	logger.Info("Shutting down HTTP server...")
 	events.Shutdown()
+	if prov, _ := telemetry.Init(context.Background()); prov != nil {
+		flushCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		if err := prov.Shutdown(flushCtx); err != nil {
+			logger.Warningf("telemetry: shutdown: %v", err)
+		}
+		cancel()
+	}
 
 	if err := state.Close(); err != nil {
 		logger.Errorf("Failed to close state management: %v", err)

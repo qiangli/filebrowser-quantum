@@ -115,10 +115,6 @@ func configureHTTPRouter(router, api, publicRoutes, publicApi *http.ServeMux) {
 	// ========================================
 	api.HandleFunc("GET /settings", withAdmin(settingsGetHandler))
 	api.HandleFunc("GET /settings/config", withAdmin(settingsConfigHandler))
-	api.HandleFunc("GET /settings/analytics", withTimeout(time5s, withAdminHelper(settingsAnalyticsGetHandler)))
-	api.HandleFunc("PUT /settings/analytics", withTimeout(time5s, withAdminHelper(settingsAnalyticsUpdateHandler)))
-	api.HandleFunc("PATCH /settings/analytics", withTimeout(time5s, withAdminHelper(settingsAnalyticsUpdateHandler)))
-	api.HandleFunc("GET /settings/analytics/preview", withTimeout(time30s, withAdminHelper(settingsAnalyticsPreviewHandler)))
 	api.HandleFunc("GET /settings/source", withTimeout(time5s, withUserHelper(settingsSourceGetHandler)))
 	api.HandleFunc("PATCH /settings/source", withTimeout(time5s, withAdminHelper(settingsSourcePatchHandler)))
 	api.HandleFunc("GET /settings/sources", withUser(getSourceInfoHandler))

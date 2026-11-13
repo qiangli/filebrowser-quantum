@@ -1,8 +1,6 @@
 import { notify } from "@/notify";
 import { getApiPath, getPublicApiPath } from "@/utils/url.js";
-import { fetchJSON, fetchURL, requestTimeoutSignal } from "./utils";
-
-const analyticsRequestTimeoutMs = 5000;
+import { fetchJSON, fetchURL } from "./utils";
 
 export function get(property="") {
   const path = getApiPath("settings", { property });
@@ -38,24 +36,6 @@ export async function sources() {
     }
     throw err
   }
-}
-
-export function getAnalytics() {
-  return fetchJSON(getApiPath("settings/analytics"), {
-    signal: requestTimeoutSignal(analyticsRequestTimeoutMs),
-  });
-}
-
-export async function updateAnalytics({ enabled }) {
-  return fetchJSON(getApiPath("settings/analytics"), {
-    method: "PUT",
-    body: JSON.stringify({ enabled }),
-    signal: requestTimeoutSignal(analyticsRequestTimeoutMs),
-  });
-}
-
-export function getAnalyticsPreview() {
-  return fetchJSON(getApiPath("settings/analytics/preview"));
 }
 
 export function getUserDefaults() {

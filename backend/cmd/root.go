@@ -12,7 +12,6 @@ import (
 	_ "net/http/pprof"
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
-	"github.com/gtsteffaniak/filebrowser/backend/internal/analytics"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/app"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/icons"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/preview"
@@ -67,14 +66,6 @@ func StartFilebrowser() {
 	database := fmt.Sprintf("Using existing database  : %v", settings.Config.Server.DatabaseV2.Path)
 	if !dbExists {
 		database = fmt.Sprintf("Creating new database    : %v", settings.Config.Server.DatabaseV2.Path)
-	}
-	if !settings.Config.Server.DisableUpdateCheck {
-		info, _ := utils.CheckForUpdates()
-		if info.LatestVersion != "" {
-			logger.Infof("A new version is available: %s (current: %s)", info.LatestVersion, info.CurrentVersion)
-			logger.Infof("Release notes: %s", info.ReleaseNotes)
-		}
-		go utils.StartCheckForUpdates()
 	}
 
 	// Create context and channels for graceful shutdown
@@ -143,7 +134,6 @@ func StartFilebrowser() {
 	for _, source := range settings.Config.Server.SourceMap {
 		go indexing.Initialize(source, false, isNewDb)
 	}
-	analytics.StartReporter()
 	validateUserInfo(!dbExists)
 	validateOfficeIntegration()
 	validateAccessRules()
