@@ -132,7 +132,15 @@ func handleWithStaticData(w http.ResponseWriter, r *http.Request, d *requestCont
 	}
 
 	defaultThemeColor := settings.DefaultBackgroundColor()
-	staticURL := settings.Config.Http.BaseURL + "public/static"
+	// Cooperative-app mounting: a reverse proxy that mounts this instance
+	// under a dynamic public prefix strips that prefix before the request
+	// reaches us (so routing keeps using http.baseURL) and announces it as
+	// X-Forwarded-Prefix. Every URL the SPA emits (assets, API calls, the
+	// router base) must carry the public prefix, so the page is rendered
+	// against it. Without the header the configured baseURL applies, so the
+	// same instance works on loopback and behind the proxy unchanged.
+	baseURL := publicBaseURL(r)
+	staticURL := baseURL + "public/static"
 	description := settings.Config.Frontend.Description
 	title := settings.Config.Frontend.Name
 	banner := staticURL + "/icons/pwa-icon-512.png" // largest generated PWA icon
@@ -205,7 +213,7 @@ func handleWithStaticData(w http.ResponseWriter, r *http.Request, d *requestCont
 
 	manifestURL := staticURL + "/site.webmanifest"
 	if shareHash != "" {
-		pwaStartURL := settings.Config.Http.BaseURL + "public/share/" + shareHash + "/"
+		pwaStartURL := baseURL + "public/share/" + shareHash + "/"
 		query := url.Values{}
 		query.Set("start", pwaStartURL)
 		if title != settings.Config.Frontend.Name {
@@ -225,7 +233,7 @@ func handleWithStaticData(w http.ResponseWriter, r *http.Request, d *requestCont
 		"lightBackground":    settings.Config.Frontend.Styling.LightBackground,
 		"darkBackground":     settings.Config.Frontend.Styling.DarkBackground,
 		"staticURL":          staticURL,
-		"baseURL":            settings.Config.Http.BaseURL,
+		"baseURL":            baseURL,
 		"favicon":            favicon,
 		"loginIcon":          loginIcon,
 		"color":              defaultThemeColor,
@@ -247,7 +255,7 @@ func handleWithStaticData(w http.ResponseWriter, r *http.Request, d *requestCont
 		"minSearchLength":        settings.Config.Server.MinSearchLength,
 		"disableExternal":        settings.Config.Frontend.DisableDefaultLinks,
 		"darkMode":               settings.Config.UserDefaults.UI.DarkMode,
-		"baseURL":                settings.Config.Http.BaseURL,
+		"baseURL":                baseURL,
 		"version":                versionString,
 		"commitSHA":              commitSHAString,
 		"signup":                 settings.Config.Auth.Methods.PasswordAuth.Signup,
@@ -453,4 +461,16 @@ func indexHandler(w http.ResponseWriter, r *http.Request, d *requestContext) (in
 		return http.StatusNotFound, nil
 	}
 	return handleWithStaticData(w, r, d, "index.html", "text/html")
+}
+
+// publicBaseURL is the base URL the rendered page should emit: the
+// X-Forwarded-Prefix announced by a path-mounting reverse proxy, normalized
+// to File Browser's "/prefix/" form, or the configured http.baseURL when no
+// proxy prefix is present.
+func publicBaseURL(r *http.Request) string {
+	fwd := strings.Trim(r.Header.Get("X-Forwarded-Prefix"), "/")
+	if fwd == "" {
+		return settings.Config.Http.BaseURL
+	}
+	return "/" + fwd + "/"
 }

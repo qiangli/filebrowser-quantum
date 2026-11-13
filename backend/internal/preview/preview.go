@@ -169,6 +169,13 @@ func StartPreviewGenerator(concurrencyLimit int, cacheDir string) error {
 	return nil
 }
 
+// StopPreviewGenerator releases the service so a later StartPreviewGenerator
+// starts fresh. Embedding hosts call it when tearing an instance down; the
+// CLI server never restarts the generator.
+func StopPreviewGenerator() {
+	service = nil
+}
+
 // GetService returns the preview service instance (can be nil if not started)
 func GetService() *Service {
 	return service

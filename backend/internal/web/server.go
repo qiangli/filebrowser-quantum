@@ -16,8 +16,8 @@ import (
 	_ "net/http/pprof"
 
 	"github.com/coreos/go-systemd/v22/activation"
-	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/files"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/auth"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/events"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
@@ -52,19 +52,19 @@ func GetEmbeddedAssets() embed.FS {
 	return assets
 }
 
-// StartHttp starts the HTTP server and blocks until ctx is cancelled.
-func StartHttp(ctx context.Context, deps Deps, shutdownComplete chan struct{}) {
-	if settings.Env.IsDevMode {
-		go func() {
-			if err := http.ListenAndServe("localhost:6060", nil); err != nil {
-				logger.Fatalf("pprof server error: %v", err)
-			}
-		}()
-	}
-
+// NewHandler builds the complete File Browser http.Handler (API, public
+// routes, static assets, index template, logging/recovery middleware) without
+// binding a listener. It is the in-process embedding seam: a host program that
+// owns its own listener and access gate (see package fbembed) mounts the
+// returned handler under its own mux or reverse proxy. StartHttp uses it too,
+// so the CLI server and an embed serve byte-identical routes.
+//
+// Call fileutils.InitAssetFS before NewHandler; settings.Config must already be
+// initialized (settings.Initialize or settings.InitializeEmbedded).
+func NewHandler(deps Deps) (http.Handler, error) {
 	fs := fileutils.GetAssetFS()
 	if fs == nil {
-		logger.Fatal("Asset filesystem not initialized. Call fileutils.InitAssetFS first.")
+		return nil, fmt.Errorf("asset filesystem not initialized: call fileutils.InitAssetFS first")
 	}
 
 	templates := template.New("").Funcs(template.FuncMap{
@@ -74,7 +74,11 @@ func StartHttp(ctx context.Context, deps Deps, shutdownComplete chan struct{}) {
 		},
 	})
 	if !settings.Env.IsDevMode {
-		templates = template.Must(templates.ParseFS(fs, "public/index.html"))
+		var err error
+		templates, err = templates.ParseFS(fs, "public/index.html")
+		if err != nil {
+			return nil, fmt.Errorf("parse index template: %w", err)
+		}
 	}
 	templateRenderer = &TemplateRenderer{
 		templates: templates,
@@ -89,10 +93,27 @@ func StartHttp(ctx context.Context, deps Deps, shutdownComplete chan struct{}) {
 	publicApi := http.NewServeMux()
 
 	configureHTTPRouter(router, api, publicRoutes, publicApi)
+	return muxWithMiddleware(router), nil
+}
+
+// StartHttp starts the HTTP server and blocks until ctx is cancelled.
+func StartHttp(ctx context.Context, deps Deps, shutdownComplete chan struct{}) {
+	if settings.Env.IsDevMode {
+		go func() {
+			if err := http.ListenAndServe("localhost:6060", nil); err != nil {
+				logger.Fatalf("pprof server error: %v", err)
+			}
+		}()
+	}
+
+	handler, err := NewHandler(deps)
+	if err != nil {
+		logger.Fatalf("%v", err)
+	}
 
 	srv := &http.Server{
 		Addr:    settings.HTTPListenAddr(settings.Config.Http.ListenAddress, settings.Config.Http.Port),
-		Handler: muxWithMiddleware(router),
+		Handler: handler,
 	}
 	listenAddress := settings.Config.Http.ListenAddress
 	go func() {

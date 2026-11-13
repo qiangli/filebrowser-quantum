@@ -12,6 +12,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -78,6 +79,44 @@ func initializeConfig(configFile string, cliMode bool) {
 	warnHttpProxyConfig()
 	setupFrontend(false)
 	setupMedia(false)
+}
+
+// InitializeEmbedded configures the process for an in-process embed (see
+// package fbembed): no config file is read. Defaults are applied, apply
+// mutates them, and the same setup pipeline Initialize runs on a loaded file
+// follows. Validation failures are returned instead of exiting, so the host
+// program decides what to do.
+var embeddedLoggingOnce sync.Once
+
+func InitializeEmbedded(apply func(*Settings)) error {
+	Env.IsCLIMode = false
+	Config = SetDefaults(false)
+	if apply != nil {
+		apply(&Config)
+	}
+	if err := ResolveDatabasePaths(); err != nil {
+		return err
+	}
+	// Log sinks are process-global and additive; an embed that restarts
+	// must not register a duplicate sink per boot.
+	embeddedLoggingOnce.Do(setupLogging)
+	setupEnv()
+	if err := ValidateConfig(Config); err != nil {
+		return fmt.Errorf("embedded config failed validation: %w", err)
+	}
+	if len(Config.Server.Sources) == 0 {
+		return fmt.Errorf("embedded config has no server.sources")
+	}
+	setupFs()
+	setupServer()
+	setupHttp()
+	setupAuth(false)
+	setupSources(false)
+	InitializeUserResolvers()
+	setupUrls()
+	setupFrontend(false)
+	setupMedia(false)
+	return nil
 }
 
 func setupServer() {
