@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 )
 
 // GenerateVideoPreview generates a single preview image from a video using ffmpeg.

@@ -9,11 +9,11 @@ import (
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/activity"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/errors"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 	"golang.org/x/time/rate"
 )
 

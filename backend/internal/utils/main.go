@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 )
 
 func CheckErr(source string, err error) {

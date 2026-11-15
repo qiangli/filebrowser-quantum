@@ -4,10 +4,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
 	activitydb "github.com/gtsteffaniak/filebrowser/backend/internal/database/activity"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/sqldb"
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
 )
 
 // Store persists buffered activity entries.

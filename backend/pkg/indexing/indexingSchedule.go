@@ -5,10 +5,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	indexingdb "github.com/gtsteffaniak/filebrowser/backend/internal/database/dbindex"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/events"
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 )
 
 // scanScheduleTiers is the only set of adaptive scan intervals (index = currentSchedule tier).

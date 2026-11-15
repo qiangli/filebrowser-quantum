@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gtsteffaniak/filebrowser/backend/internal/cache"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing/iteminfo"
-	"github.com/gtsteffaniak/go-cache/cache"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 var SearchResultsCache = cache.NewCache[[]string](15 * time.Second)

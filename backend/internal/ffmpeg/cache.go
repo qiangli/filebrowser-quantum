@@ -3,8 +3,8 @@ package ffmpeg
 import (
 	"time"
 
+	"github.com/gtsteffaniak/filebrowser/backend/internal/cache"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
-	"github.com/gtsteffaniak/go-cache/cache"
 )
 
 var (

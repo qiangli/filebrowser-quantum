@@ -8,9 +8,9 @@ import (
 	"os"
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/sqldb"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 const authSigningKeySetting = "auth.signingKey"

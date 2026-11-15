@@ -11,8 +11,8 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/share"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/sqldb"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 var (

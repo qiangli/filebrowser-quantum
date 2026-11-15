@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"github.com/alecthomas/kong"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/version"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 	"golang.org/x/term"
 )
 

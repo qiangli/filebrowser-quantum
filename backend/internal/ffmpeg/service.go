@@ -7,10 +7,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	goffmpeg "github.com/gtsteffaniak/go-ffmpeg"
 	"github.com/gtsteffaniak/go-ffmpeg/capabilities"
 	"github.com/gtsteffaniak/go-ffmpeg/ops"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // Service wraps go-ffmpeg for filebrowser media operations.

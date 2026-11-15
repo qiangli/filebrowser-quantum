@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/sqlitebusy"
-	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing/iteminfo"
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
 )
 
 // IndexDB manages the SQLite database for the file index.

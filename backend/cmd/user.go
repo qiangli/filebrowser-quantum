@@ -8,10 +8,10 @@ import (
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/usersidebar"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 var createBackup = false

@@ -20,9 +20,9 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/ffmpeg"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/version"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 const (

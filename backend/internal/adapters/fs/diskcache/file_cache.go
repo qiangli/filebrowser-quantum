@@ -12,7 +12,7 @@ import (
 	"sync"
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 )
 
 // Cache interface for caching operations

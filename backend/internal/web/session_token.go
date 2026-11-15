@@ -6,10 +6,10 @@ import (
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/auth"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // mintAndRegisterSessionToken creates a minimal session JWT and registers its hash for auth lookup.

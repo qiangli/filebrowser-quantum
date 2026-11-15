@@ -8,8 +8,8 @@ import (
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/share"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // Share operations

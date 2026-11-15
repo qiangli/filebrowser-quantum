@@ -16,16 +16,16 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/internal/activity"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/files"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/cache"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/errors"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/preview"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing/iteminfo"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-cache/cache"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 var pauseCache = cache.NewCache[string](1 * time.Minute)

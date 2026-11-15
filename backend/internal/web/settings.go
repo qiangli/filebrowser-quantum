@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // settingsGetHandler retrieves the current system settings.
@@ -121,10 +121,10 @@ func getSourceInfoHandler(w http.ResponseWriter, r *http.Request, d *Context) (i
 }
 
 type userDefaultsResponse struct {
-	Values                  *settings.UserDefaults            `json:"values,omitempty"`
-	Enforced                settings.UserDefaultsEnforcement `json:"enforced"`
-	LockedFromConfigPaths   []string                         `json:"lockedFromConfigPaths,omitempty"`
-	LockMessage             string                           `json:"lockMessage,omitempty"`
+	Values                *settings.UserDefaults           `json:"values,omitempty"`
+	Enforced              settings.UserDefaultsEnforcement `json:"enforced"`
+	LockedFromConfigPaths []string                         `json:"lockedFromConfigPaths,omitempty"`
+	LockMessage           string                           `json:"lockMessage,omitempty"`
 }
 
 func userDefaultsLockMeta() (paths []string, message string) {

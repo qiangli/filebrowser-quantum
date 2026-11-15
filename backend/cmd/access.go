@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/gtsteffaniak/filebrowser/backend/internal/database/access"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/errors"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
-	"github.com/gtsteffaniak/filebrowser/backend/internal/database/access"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // validateAccessRules migrates old-style access rules (without trailing slashes) to new format

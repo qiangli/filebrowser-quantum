@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // bootstrapDefaultAdminPassword returns the plaintext password for initial admin creation.

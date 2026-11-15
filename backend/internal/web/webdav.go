@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"golang.org/x/net/webdav"
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/activity"
@@ -49,11 +49,11 @@ func (f *fileInfoWrapper) mode() os.FileMode {
 
 // filteredFileSystem wraps a webdav.FileSystem and filters directory listings using FileInfoFaster
 type filteredFileSystem struct {
-	fs         webdav.FileSystem
-	source     string
-	user       *users.User
-	filePerms  users.SourceFilePermissions
-	httpReq    *http.Request
+	fs        webdav.FileSystem
+	source    string
+	user      *users.User
+	filePerms users.SourceFilePermissions
+	httpReq   *http.Request
 	// Cache FileInfoFaster results per path to avoid redundant calls within the same request
 	fileInfoCache map[string]*iteminfo.ExtendedFileInfo
 }

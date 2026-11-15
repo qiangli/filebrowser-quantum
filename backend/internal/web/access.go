@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"net/http"
 
-	activitydb "github.com/gtsteffaniak/filebrowser/backend/internal/database/activity"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/activity"
+	activitydb "github.com/gtsteffaniak/filebrowser/backend/internal/database/activity"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/errors"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 type GroupListResponse struct {

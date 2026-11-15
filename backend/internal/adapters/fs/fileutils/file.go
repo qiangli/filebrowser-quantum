@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 )
 
 var PermFile os.FileMode

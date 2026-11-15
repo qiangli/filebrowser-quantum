@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 )
 
 // Strict hex color regex: #RGB, #RGBA, #RRGGBB, #RRGGBBAA

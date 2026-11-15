@@ -19,9 +19,9 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/ffmpeg"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/imagemeta"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing/iteminfo"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 const minPreviewSize = 100

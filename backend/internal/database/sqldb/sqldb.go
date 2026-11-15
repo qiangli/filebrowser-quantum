@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/sqlitebusy"
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	// SQLite driver is imported in driver_cgo.go or driver_nocgo.go based on build tags
 )
 

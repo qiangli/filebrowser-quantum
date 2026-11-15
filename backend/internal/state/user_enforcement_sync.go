@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // ApplyEnforcedSyncToUser applies enforced default values onto u in memory. Returns true if profile fields changed.

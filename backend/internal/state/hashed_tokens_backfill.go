@@ -7,8 +7,8 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/access"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/sqldb"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // BackfillHashedTokensFromUserRecords registers SHA256(raw JWT) → user_id for stored API tokens.

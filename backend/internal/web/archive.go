@@ -22,15 +22,14 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/internal/activity"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/files"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/cache"
 	activitydb "github.com/gtsteffaniak/filebrowser/backend/internal/database/activity"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
-	"github.com/gtsteffaniak/go-cache/cache"
-	"github.com/gtsteffaniak/go-logger/logger"
 	"golang.org/x/time/rate"
-	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
-
 )
 
 // archiveMultiRequestIdle is how long without another Range/HEAD on the same archiveToken before

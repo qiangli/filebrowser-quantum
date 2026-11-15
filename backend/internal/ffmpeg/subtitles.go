@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	goffmpeg "github.com/gtsteffaniak/go-ffmpeg"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // DetectEmbeddedSubtitles detects embedded subtitle streams.

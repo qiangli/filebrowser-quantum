@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gtsteffaniak/go-logger/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 )
 
 // MigrateFromDefault resolves server.database.migrateFrom from FILEBROWSER_DATABASE or database.db.

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/gtsteffaniak/filebrowser/backend/internal/cache"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/database/users"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/errors"
-	"github.com/gtsteffaniak/go-cache/cache"
 )
 
 const userCacheTTL = 30 * time.Minute

@@ -11,8 +11,8 @@ import (
 
 	"github.com/coreos/go-oidc/v3/oidc"
 	ldap "github.com/go-ldap/ldap/v3"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/version"
-	"github.com/gtsteffaniak/go-logger/logger"
 )
 
 // userAgentTransport wraps an http.RoundTripper to add a User-Agent header

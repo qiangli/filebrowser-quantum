@@ -13,14 +13,13 @@ import (
 	"unicode"
 
 	"github.com/gtsteffaniak/filebrowser/backend/internal/activity"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/cache"
 	activitydb "github.com/gtsteffaniak/filebrowser/backend/internal/database/activity"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing/iteminfo"
-	"github.com/gtsteffaniak/go-cache/cache"
-	"github.com/gtsteffaniak/go-logger/logger"
-	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
-
 )
 
 // duplicateSearchMutex serializes duplicate searches to run one at a time

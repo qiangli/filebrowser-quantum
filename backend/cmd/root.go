@@ -14,6 +14,7 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/internal/adapters/fs/fileutils"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/app"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/icons"
+	"github.com/gtsteffaniak/filebrowser/backend/internal/logger"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/preview"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/state"
 	"github.com/gtsteffaniak/filebrowser/backend/internal/utils"
@@ -22,7 +23,6 @@ import (
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/indexing"
 	"github.com/gtsteffaniak/filebrowser/backend/pkg/settings"
 	"github.com/gtsteffaniak/filebrowser/backend/swagger/docs"
-	"github.com/gtsteffaniak/go-logger/logger"
 	"github.com/swaggo/swag"
 )
 
